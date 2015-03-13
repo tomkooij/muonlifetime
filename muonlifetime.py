@@ -24,9 +24,9 @@ if __name__=='__main__':
     print "fit result: ",c
 
     # Levensduur = ln(2)/lambda
-    muonlifetime = float(-1*np.log(2)/c[1])
+    muonlifetime = float(-1/c[1])
     print "\nCalculated lifetime: %4.f ns." % muonlifetime
-
+    print "\nError (measured/real liftime ) = %2.2f" % float(2196./muonlifetime)
     # plot de gefitte functie ook in de grafiek
     xfit = np.array(middle)
     yfit = fit_func(xfit, c[0], c[1], c[2])
