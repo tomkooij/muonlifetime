@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
+TIMESCALE = 6.25 # ADC meetresolutie is 6.25 ns.
+
 fit_func  = lambda x,a,b : a*np.exp(b*x)
 
 if __name__=='__main__':
     # open .txt
     data = np.genfromtxt('Lifetime_hitdata.txt',delimiter=';')
-    lifetime = data[:,4]
+    lifetime = data[:,4]*TIMESCALE
 
     plt.figure()
     plt.title('muon lifetime')
@@ -15,10 +17,10 @@ if __name__=='__main__':
     plt.xlabel('delta-t [ns]')
 
     # histogram
-    n, bins, bla = plt.hist(lifetime, bins=np.arange(20.,1500.,20.), histtype='step')
+    n, bins, bla = plt.hist(lifetime, bins=np.arange(20.,10000.,100.), histtype='step')
 
     # Fit een dalende exponent
-    initialguess = [100., -0.05]
+    initialguess = [1000., -0.05]
     middle = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
     c, cov = curve_fit(fit_func, middle, n, p0=initialguess)
     print "fit result: ",c
